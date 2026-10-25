@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Student Performance Predictor</h1>
+            <p>Enter student details below to predict academic performance.</p>
+        </header>
+
+        <main>
+            <form id="prediction-form">
+                <div class="form-group">
+                    <label for="study_hours">Study Hours (per day):</label>
+                    <input type="number" id="study_hours" step="0.1" min="0" max="24" required placeholder="e.g., 5.5">
+                </div>
+
+                <div class="form-group">
+                    <label for="previous_score">Previous Score (out of 100):</label>
+                    <input type="number" id="previous_score" step="0.1" min="0" max="100" required placeholder="e.g., 75">
+                </div>
+
+                <div class="form-group">
+                    <label for="attendance">Attendance (%):</label>
+                    <input type="number" id="attendance" step="0.1" min="0" max="100" required placeholder="e.g., 85">
+                </div>
+
+                <div class="form-group">
+                    <label for="sleep_hours">Sleep Hours (per night):</label>
+                    <input type="number" id="sleep_hours" step="0.1" min="0" max="24" required placeholder="e.g., 7">
+                </div>
+
+                <div class="form-group">
+                    <label for="tutoring">Taking Extra Tutoring?</label>
+                    <select id="tutoring" required>
+                        <option value="">Select option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-predict">Predict Performance</button>
+            </form>
+
+            <div id="result" class="result-container">
+                <!-- Prediction results or loading messages will appear here dynamically -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Link your integration JavaScript file -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
