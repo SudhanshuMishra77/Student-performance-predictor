@@ -5,19 +5,21 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (event) => {
     event.preventDefault(); // Prevents page reload on form submit
 
-    // 1. Gather form input values
+    // 1. Gather all 5 form input values matching app.py
     const payload = {
       study_hours: parseFloat(document.getElementById("study_hours").value),
+      previous_score: parseFloat(document.getElementById("previous_score").value),
       attendance: parseFloat(document.getElementById("attendance").value),
-      previous_marks: parseFloat(document.getElementById("previous_marks").value)
+      sleep_hours: parseFloat(document.getElementById("sleep_hours").value),
+      tutoring: document.getElementById("tutoring").value // "yes" or "no" / 1 or 0
     };
 
     // 2. Show a loading message while waiting for backend
     resultDiv.innerHTML = "<p>Analyzing data and predicting...</p>";
 
     try {
-      // 3. Send POST request to Flask endpoint
-      const response = await fetch("/predict", {
+      // 3. Send POST request to the correct Flask endpoint
+      const response = await fetch("/api/predict", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -32,7 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
         resultDiv.innerHTML = `
           <div class="success-card">
             <h3>Predicted Score: ${data.predicted_score}%</h3>
-            <p>Status: ${data.status_message}</p>
+            <p>Performance Category: <strong>${data.performance_category}</strong></p>
+            <p class="text-muted"><small>${data.message}</small></p>
           </div>
         `;
       } else {
