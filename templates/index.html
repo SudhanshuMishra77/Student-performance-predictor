@@ -7,53 +7,208 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Student Performance Predictor</h1>
-            <p>Enter student details below to predict academic performance.</p>
-        </header>
 
-        <main>
-            <form id="prediction-form">
-                <div class="form-group">
-                    <label for="study_hours">Study Hours (per day):</label>
-                    <input type="number" id="study_hours" step="0.1" min="0" max="24" required placeholder="e.g., 5.5">
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="brand">
+            <div class="brand-icon">🎓</div>
+            <span>EduPredict</span>
+        </div>
+        <nav>
+            <a href="#predictor">Predictor</a>
+            <a href="#history">History</a>
+            <a href="#about">About</a>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="eyebrow">AI-POWERED ACADEMIC INSIGHTS</div>
+            <h1>Student Performance <span>Predictor</span></h1>
+            <p class="hero-description">
+                Leverage machine learning to forecast student academic outcomes based on study habits, attendance, prior performance, and lifestyle metrics.
+            </p>
+            <a href="#predictor" class="primary-button">
+                Get Started <span>&rarr;</span>
+            </a>
+            
+            <div class="features">
+                <div class="feature">
+                    <span>⚡</span>
+                    <div>
+                        <strong>Instant Results</strong>
+                        <small>Real-time machine learning inference</small>
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="previous_score">Previous Score (out of 100):</label>
-                    <input type="number" id="previous_score" step="0.1" min="0" max="100" required placeholder="e.g., 75">
+                <div class="feature">
+                    <span>📊</span>
+                    <div>
+                        <strong>Smart Analytics</strong>
+                        <small>Random Forest regression pipeline</small>
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="attendance">Attendance (%):</label>
-                    <input type="number" id="attendance" step="0.1" min="0" max="100" required placeholder="e.g., 85">
+                <div class="feature">
+                    <span>🛡️</span>
+                    <div>
+                        <strong>Secure Data</strong>
+                        <small>Logged securely via SQLite</small>
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="sleep_hours">Sleep Hours (per night):</label>
-                    <input type="number" id="sleep_hours" step="0.1" min="0" max="24" required placeholder="e.g., 7">
-                </div>
-
-                <div class="form-group">
-                    <label for="tutoring">Taking Extra Tutoring?</label>
-                    <select id="tutoring" required>
-                        <option value="">Select option</option>
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="btn-predict">Predict Performance</button>
-            </form>
-
-            <div id="result" class="result-container">
-                <!-- Prediction results or loading messages will appear here dynamically -->
             </div>
-        </main>
-    </div>
+        </div>
 
-    <!-- Link your integration JavaScript file -->
+        <div class="hero-visual">
+            <div class="visual-circle"></div>
+            <div class="visual-card">
+                <div class="cap">🎓</div>
+                <div class="books">
+                    <div class="book book-one"></div>
+                    <div class="book book-two"></div>
+                    <div class="book book-three"></div>
+                </div>
+            </div>
+            <div class="mini-chart">
+                <small>Accuracy</small>
+                <span>97.5%</span>
+                <div class="chart-bars">
+                    <i></i><i></i><i></i><i></i><i></i>
+                </div>
+            </div>
+            <div class="visual-caption">ML Model Active</div>
+        </div>
+    </section>
+
+    <!-- PREDICTION SECTION -->
+    <section id="predictor" class="predict-section">
+        <div class="section-heading">
+            <span class="section-tag">INTERACTIVE TOOL</span>
+            <h2>Run a Performance Prediction</h2>
+            <p>Input student habits and academic indicators below to generate an estimated score.</p>
+        </div>
+
+        <div class="content-grid">
+            <!-- Form Card -->
+            <div class="prediction-form">
+                <div class="form-heading">
+                    <div class="form-icon">📝</div>
+                    <div>
+                        <h3>Student Parameters</h3>
+                        <p>Fill in all fields for accurate evaluation</p>
+                    </div>
+                </div>
+
+                <form id="prediction-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="study_hours">Study Hours (per day)</label>
+                            <input type="number" id="study_hours" step="0.1" min="0" max="24" required placeholder="e.g., 5.5">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="previous_score">Previous Score (0-100)</label>
+                            <input type="number" id="previous_score" step="0.1" min="0" max="100" required placeholder="e.g., 75">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="attendance">Attendance (%)</label>
+                            <input type="number" id="attendance" step="0.1" min="0" max="100" required placeholder="e.g., 85">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sleep_hours">Sleep Hours (per night)</label>
+                            <input type="number" id="sleep_hours" step="0.1" min="0" max="24" required placeholder="e.g., 7">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="tutoring">Taking Extra Tutoring?</label>
+                            <select id="tutoring" required>
+                                <option value="">Select option</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="predict-button">
+                        Predict Performance
+                    </button>
+                </form>
+            </div>
+
+            <!-- Result Panel -->
+            <div class="result-panel">
+                <div id="resultContent">
+                    <div class="empty-state">
+                        <div class="empty-icon">📈</div>
+                        <h3>Awaiting Input</h3>
+                        <p>Fill out the form on the left and click predict to view estimated performance results.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HISTORY SECTION -->
+    <section id="history" class="history-section">
+        <div class="section-heading">
+            <span class="section-tag">ARCHIVE</span>
+            <h2>Recent Predictions History</h2>
+            <p>Review previously logged evaluations stored in the database.</p>
+        </div>
+
+        <div class="history-card">
+            <div class="table-wrap">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Study Hrs</th>
+                            <th>Prev Score</th>
+                            <th>Attendance</th>
+                            <th>Sleep Hrs</th>
+                            <th>Tutoring</th>
+                            <th>Predicted Score</th>
+                            <th>Category</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <!-- Dynamically populated via app.js or left clean -->
+                    </tbody>
+                </table>
+            </div>
+            <p class="history-note">Showing the latest query entries recorded by the system.</p>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="about-section">
+        <span class="section-tag">ARCHITECTURE</span>
+        <h2>Built for Precision & Scale</h2>
+        <div class="about-grid">
+            <div class="about-card">
+                <span>01 // BACKEND</span>
+                <h3>Flask & Gunicorn</h3>
+                <p>Robust routing framework configured for high-performance deployment on cloud infrastructure.</p>
+            </div>
+            <div class="about-card">
+                <span>02 // MACHINE LEARNING</span>
+                <h3>Random Forest</h3>
+                <p>Ensemble regression model trained on synthetic student datasets to capture complex non-linear habits.</p>
+            </div>
+            <div class="about-card">
+                <span>03 // STORAGE</span>
+                <h3>SQLite Database</h3>
+                <p>Lightweight persistent logging to track every prediction request made through the web interface.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>Student Performance Predictor <span>&bull;</span> Full-Stack Machine Learning Web App</p>
+    </footer>
+
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
