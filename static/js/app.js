@@ -75,7 +75,7 @@ async function loadHistory() {
     historyData.forEach(item => {
       const row = document.createElement("tr");
       row.innerHTML = `
-        <td>${item.timestamp || 'Just now'}</td>
+        <td>${item.created_at || 'Just now'}</td>
         <td>${item.study_hours}</td>
         <td>${item.previous_score}</td>
         <td>${item.attendance}%</td>
