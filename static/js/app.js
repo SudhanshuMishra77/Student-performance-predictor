@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("prediction-form");
-  const resultDiv = document.getElementById("result");
+  const resultDiv = document.getElementById("resultContent");
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault(); // Prevents page reload on form submit
