@@ -1,83 +1,66 @@
-import numpy as np
+import random
 import pandas as pd
 import joblib
-
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_absolute_error, r2_score
-
-# STEP 1: Generate sample student data
-np.random.seed(42)
-
-number_of_students = 500
-
-study_hours = np.random.uniform(0, 10, number_of_students)
-attendance = np.random.uniform(40, 100, number_of_students)
-previous_marks = np.random.uniform(30, 100, number_of_students)
-
-# Demo formula to create sample final marks
-noise = np.random.normal(0, 5, number_of_students)
-
-final_score = (
-    3 * study_hours
-    + 0.2 * attendance
-    + 0.5 * previous_marks
-    + noise
+from sklearn.metrics import mean_absolute_error
+# Make results reproducible
+random.seed(42)
+# Generate sample student data
+students = []
+for _ in range(2000):
+    study_hours = round(random.uniform(0, 12), 1)
+    previous_score = round(random.uniform(30, 100), 1)
+    attendance = round(random.uniform(40, 100), 1)
+    sleep_hours = round(random.uniform(3, 10), 1)
+    tutoring = random.choice([0, 1])
+    # Simulated relationship between student habits and scores
+    score = (
+        0.45 * previous_score
+        + 2.0 * study_hours
+        + 0.15 * attendance
+        + 1.0 * sleep_hours
+        + 3.0 * tutoring
+        - 5
+        + random.uniform(-5, 5)
+    )
+    score = max(0, min(100, score))
+    students.append({
+        "study_hours": study_hours,
+        "previous_score": previous_score,
+        "attendance": attendance,
+        "sleep_hours": sleep_hours,
+        "tutoring": tutoring,
+        "final_score": round(score, 2)
+    })
+# Convert the data into a table
+data = pd.DataFrame(students)
+# Separate inputs and expected output
+X = data[
+    [
+        "study_hours",
+        "previous_score",
+        "attendance",
+        "sleep_hours",
+        "tutoring"
+    ]
+]
+y = data["final_score"]
+# Split data for training and testing
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
 )
-
-final_score = np.clip(final_score, 0, 100)
-
-# STEP 2: Create the dataset
-df = pd.DataFrame({
-    "study_hours": study_hours,
-    "attendance": attendance,
-    "previous_marks": previous_marks,
-    "final_score": final_score
-})
-
-# Save dataset as CSV
-df.to_csv("student_data.csv", index=False)
-
-print("Dataset created successfully!")
-print(df.head())
-
-# STEP 3: Separate input features and target
-X = df[["study_hours", "attendance", "previous_marks"]]
-Y = df["final_score"]
-
-# STEP 4: Split data into training and testing sets
-X_train, X_test, Y_train, Y_test = train_test_split(
-    X, Y, test_size=0.2, random_state=42
+# Train the machine-learning model
+model = RandomForestRegressor(
+    n_estimators=100,
+    random_state=42
 )
-
-# STEP 5: Train the Linear Regression model
-model = LinearRegression()
-model.fit(X_train, Y_train)
-
-print("\nModel training completed!")
-
-# STEP 6: Evaluate the model
+model.fit(X_train, y_train)
+# Evaluate the model
 predictions = model.predict(X_test)
-
-mae = mean_absolute_error(Y_test, predictions)
-r2 = r2_score(Y_test, predictions)
-
-print(f"Mean Absolute Error: {mae:.2f}")
-print(f"R2 Score: {r2:.2f}")
-
-# STEP 7: Save the trained model
-joblib.dump(model, "model.pkl")
-
-print("\nModel saved as model.pkl")
-
-# STEP 8: Test a new student
-new_student = pd.DataFrame([{
-    "study_hours": 5,
-    "attendance": 80,
-    "previous_marks": 70
-}])
-
-predicted_marks = model.predict(new_student)[0]
-predicted_marks = np.clip(predicted_marks, 0, 100)
-
-print(f"\nPredicted final marks: {predicted_marks:.2f}/100")
+mae = mean_absolute_error(y_test, predictions)
+print("Student Performance Model Trained Successfully!")
+print(f"Mean Absolute Error: {mae:.2f} points")
+# Save the trained model
+joblib.dump(model, "student_performance_model.pkl")
+print("Model saved as student_performance_model.pkl")
